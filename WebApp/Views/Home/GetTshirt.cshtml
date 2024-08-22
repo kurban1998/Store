@@ -1,0 +1,94 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model ThisrtApiService.Models.TshirtDTO
+}
+
+<div class="text-center">
+    <h1 class="display-4 text-center mb-4 mt-4">@Model.Brand</h1>
+    @if (Model.PromotionalText != null)
+    {
+        <p style="color: darkred;" class="h3">@Model.PromotionalText!!!</p>
+    }
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/gettshirt.css">
+</div>
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col-6">
+            <img src="@(@$"{Model.ImageName}")" alt="Tshirt">
+        </div>
+        <div class="col-6 text-start">
+            <div class="about-tshirt">
+
+                @if (Model.NewPrice > 0)
+                {
+                    <p>Цена: <s> @Model.Price</s></p>
+                    <p>Цена по скидке: @Model.NewPrice</p>
+                }
+                else
+                {
+                    <p>Цена: @Model.Price</p>
+                }
+
+                <p>Размер: @Model.Size</p>
+                <p>Цвет: @Model.Color</p>
+                <p>Пол: @Model.Gender</p>
+                <p>Рейтинг: @Model.NumStats</p>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div class="review">
+                        <form method="post" action="~/Basket/AddItemToBasket">
+                            <input style="display: none" value="@Model.Brand" type="text" name="brand" readonly />
+                            @if (Model.NewPrice > 0)
+                            {
+                                <input style="display: none" value="@Model.NewPrice" type="text" name="price" readonly />
+                            }
+                            else
+                            {
+                                <input style="display: none" value="@Model.Price" type="text" name="price" readonly />
+                            }
+
+                            <input style="display: none" value="@Model.TshirtId" type="number" name="tshirtId" readonly />
+                            <input style="display: none" value="@User.Identity?.Name" type="text" name="userName" readonly />
+                            <input type="submit" class="btn btn-success" value="добавить в корзину" />
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="review">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <form class="" method="post" action="~/Home/AddReview">
+                        <div class="review">
+                            <input style="display: none" value="@Model.TshirtId" type="number" name="tshirtId" readonly />
+                            <input style="display: none" value="@User.Identity?.Name" type="text" name="votername" readonly minlength="3" />
+                            <label>Оценка</label>
+                            <input type="number" value="5" min="1" max="5" requiredч name="grade" />
+                            <label>Комментарий</label>
+                            <input type="text" name="comment" />
+                        </div>
+                        <input type="submit" class="btn btn-success" value="добавить отзыв" />
+                    </form>
+                }
+            </div>
+            <div class="all-reviews">
+                <form class="text-center" method="post" action="~/Home/GetAllReviews">
+                    <input style="display: none" value="@Model.TshirtId" type="number" name="tshirtId" readonly />
+                    <input type="submit" class="btn btn-dark mt-1" value="Посмотреть отзывы" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</div>

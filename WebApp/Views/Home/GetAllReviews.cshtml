@@ -1,0 +1,29 @@
+﻿@model ThisrtApiService.Models.Reviews.TshirtReviewsDTO
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <title>Reviews</title>
+</head>
+<body>
+    <h1 class="text-center">Отзывы о футболке @Model.Brand</h1>
+    @if(Model.ReviewContainer.Count() == 0)
+    {
+        <h2>Нет отзывов</h2>
+    }
+    else
+    {
+        <div class="reviews">
+            <div class="container">
+                @foreach (var review in Model.ReviewContainer)
+                {
+                    <p class="text-center">Имя: @review.VoterName, Оценка: @review.NumStat, Комментарий: @(!string.IsNullOrWhiteSpace(review.Comment) ? review.Comment : "Без комментария")</p>
+                }
+            </div>
+        </div>
+    }
+</body>
+</html>

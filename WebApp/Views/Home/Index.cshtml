@@ -1,0 +1,48 @@
+﻿@model GeneralModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="text-center">
+    <h1 class="display-4 text-center mb-4 mt-4">МАГАЗИН ФУТБОЛОК</h1>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</div>
+
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="success-text h3 text-center alert alert-success">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        @foreach (var tshirt in Model.TshirtsDTO)
+        {
+            <div class="col-12 col-md-6 col-lg-4 text-center">
+              <div class="tshirt">
+                    <a asp-controller="Home" asp-action="tshirt" asp-route-id="@tshirt.TshirtId"><img src="@(@$"{tshirt.ImageName}")" alt="Tshirt"></a>
+                  <div class="about-tshirt">
+                      <p>Бренд: @tshirt.Brand</p>
+              
+                      @if (@tshirt.PromotionalText != null)
+                      {
+                          <p style="color: darkred;" class="text-center mt-3 h3">@tshirt.PromotionalText!!!</p>
+                      }
+              
+                      @if (tshirt.NewPrice > 0)
+                      {
+                          <p>Цена: <s> @tshirt.Price</s></p>
+                          <p>Цена по скидке: @tshirt.NewPrice</p>
+                      }
+                      else
+                      {
+                          <p>Цена: @tshirt.Price</p>
+                      }
+                  </div>
+              </div>
+           </div>          
+        }
+
+        <script src="./js/bootstrap.bundle.min.js"></script>
+    </div>
+</div>

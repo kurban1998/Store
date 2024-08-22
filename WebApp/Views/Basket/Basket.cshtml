@@ -1,0 +1,63 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model SharedModels.Basket.BasketUser
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    .order{
+        padding: 50px 0 0 0;
+    }
+
+</style>
+
+<div class="text-center">
+    
+    <div id="no-items-in-basket" style="display: none;">
+        <h2>Корзина пуста</h2>
+    </div>
+
+    @if (Model.Products.Any())
+    {
+        <table style="width:100%;">
+            <thead>
+                <tr>
+                    <th>Бренд</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Products)
+                {
+                    <tr>
+                        <td>@item.Brand</td>
+                        <td>@item.Price</td>
+                        <td>
+                            <form class="" method="post" action="~/Basket/DeleteItemFromBasket">
+                                <button class="btn btn-danger remove-item" data-item-id="@item.TshirtId">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        <form class="" method="post" action="~/Order/CreateOrder">
+            <input value="Введите адрес" type="text" name="address" />
+            <button class="btn btn-success">Создать заказ</button>
+        </form>
+    }
+    else
+    {
+        <div>
+            <h2>Зарегестрируйтесь и добавьте товары в корзину</h2>
+        </div>
+    }
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/deleteItemFromBasket.js"></script>
