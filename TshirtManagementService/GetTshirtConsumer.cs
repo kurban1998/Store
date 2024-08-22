@@ -1,5 +1,7 @@
-﻿using Database.Repositories;
+﻿using Database.Models;
+using Database.Repositories;
 using MassTransit;
+using Newtonsoft.Json;
 using SharedModels.TshirtManagemetService;
 
 namespace TshirtManagementService
@@ -14,6 +16,7 @@ namespace TshirtManagementService
         public Task Consume(ConsumeContext<GetTshirtRequest> context)
         {
             var tshirt = _tshirtRepository.GetById(context.Message.TshirtId);
+
             return context.RespondAsync<GetTshirtResponce>(new GetTshirtResponce 
             { 
                 Tshirt = tshirt,

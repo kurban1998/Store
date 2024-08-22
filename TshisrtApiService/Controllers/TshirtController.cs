@@ -1,5 +1,6 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SharedModels.TshirtManagemetService;
 using SharedModels.TshirtService;
 using ThisrtApiService.Models;
@@ -83,9 +84,10 @@ namespace ThisrtApiService.Controllers
                 TshirtId = tshirtId
             };
 
-            var responce = await _bus.Request<GetTshirtRequest, GetTshirtResponce>(request);
-            var tshirt = responce.Message.Tshirt;
-            var reviews = responce.Message.Reviews;
+            var response = await _bus.Request<GetTshirtRequest, GetTshirtResponce>(request);
+
+            var tshirt = response.Message.Tshirt;
+            var reviews = response.Message.Reviews;
 
             return new TshirtReviewsDTO
             {

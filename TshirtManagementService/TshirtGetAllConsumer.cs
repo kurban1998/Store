@@ -1,5 +1,6 @@
 ﻿using Database.Repositories;
 using MassTransit;
+using Newtonsoft.Json;
 using SharedModels.TshirtManagemetService;
 
 namespace TshirtManagementService

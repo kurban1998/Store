@@ -1,4 +1,5 @@
 ﻿using Database.Models.Helpers;
+using System.Text.Json.Serialization;
 
 namespace Database.Models
 {
@@ -19,8 +20,10 @@ namespace Database.Models
         public Gender Gender { get; set; }
 
         //Dependencies
+        [JsonIgnore]
         public PriceOffer? PriceOffer { get; init; }
 
+        [JsonIgnore]
         public ICollection<Review> Reviews = new List<Review>();
     }
 }

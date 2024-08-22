@@ -18,7 +18,7 @@ namespace ThisrtApiService
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _timer = new Timer(UpdateCache, null, TimeSpan.Zero, TimeSpan.FromMinutes(5));
+            _timer = new Timer(UpdateCache, null, TimeSpan.Zero, TimeSpan.FromSeconds(50));
             return Task.CompletedTask;
         }
 
