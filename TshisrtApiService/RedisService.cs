@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using ThisrtApiService.Models;
+using TshisrtApiService;
 using IServer = StackExchange.Redis.IServer;
 
 namespace ThisrtApiService
 {
-    public class RedisService
+    public class RedisService : IRedisService
     {
         public RedisService(string connectionString)
         {

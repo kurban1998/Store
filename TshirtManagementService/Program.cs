@@ -1,5 +1,4 @@
 ﻿using Database;
-using Database.Models;
 using Database.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;

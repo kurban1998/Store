@@ -17,12 +17,10 @@ namespace WebApp.Controllers
     {
         public HomeController(
             HttpClient httpClient,
-            IOptions<ApiUrlOptions> options, 
-            ILogger<HomeController> logger)
+            IOptions<ApiUrlOptions> options)
         {
             _httpClient = httpClient;
             _options = options.Value;
-            _logger = logger;
         }
 
         [Route("/")]
@@ -130,7 +128,6 @@ namespace WebApp.Controllers
 
         private readonly HttpClient _httpClient;
         private readonly ApiUrlOptions _options;
-        private readonly ILogger<HomeController> _logger;
 
         private const int MaxVoterNameLength = 20;
         private const int MaxCommentLength = 150;

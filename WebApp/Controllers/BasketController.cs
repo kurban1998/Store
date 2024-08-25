@@ -6,11 +6,7 @@ namespace WebApp.Controllers
     [Route("{controller}")]
     public class BasketController : Controller
     {
-        public BasketController(
-            ILogger<BasketController> logger)
-        {
-            _logger = logger;
-        }
+        public BasketController() { }
 
         [Route("Basket")]
         public IActionResult Basket()
@@ -57,7 +53,5 @@ namespace WebApp.Controllers
 
             return Json(new { success = true });
         }
-
-        private readonly ILogger<BasketController> _logger;
     }
 }

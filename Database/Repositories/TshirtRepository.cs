@@ -19,7 +19,7 @@ namespace Database.Repositories
                 .Include(t => t.PriceOffer);
         }
 
-        public Tshirt? GetById(int id)
+        public Tshirt GetById(int id)
         {
             return _dbSet
                 .Include(t => t.Reviews)

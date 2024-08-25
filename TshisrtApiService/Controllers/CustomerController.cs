@@ -1,5 +1,4 @@
 ﻿using Database.Models;
-using Database.Repositories;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using SharedModels.CustomerService;
@@ -11,11 +10,9 @@ namespace ThisrtApiService.Controllers
     public class CustomerController : Controller
     {
         public CustomerController(
-            IBus bus,
-            ICustomerRepository loyalCustomerRepository) 
+            IBus bus) 
         {
             _bus = bus;
-            _loyalCustomerRepository = loyalCustomerRepository;
         }
 
         [HttpGet("{userName}")]
@@ -26,6 +23,5 @@ namespace ThisrtApiService.Controllers
         }
 
         private readonly IBus _bus;
-        private readonly ICustomerRepository _loyalCustomerRepository;
     }
 }

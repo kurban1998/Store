@@ -1,10 +1,10 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using SharedModels.TshirtManagemetService;
 using SharedModels.TshirtService;
 using ThisrtApiService.Models;
 using ThisrtApiService.Models.Reviews;
+using TshisrtApiService;
 
 namespace ThisrtApiService.Controllers
 {
@@ -14,7 +14,7 @@ namespace ThisrtApiService.Controllers
     {
         // https://localhost:7038
         public TshirtController(
-            RedisService redisService,
+            IRedisService redisService,
             IBus bus) 
         {
             _bus = bus;
@@ -103,6 +103,6 @@ namespace ThisrtApiService.Controllers
         }
 
         private readonly IBus _bus;
-        private readonly RedisService _redisService;
+        private readonly IRedisService _redisService;
     }
 }

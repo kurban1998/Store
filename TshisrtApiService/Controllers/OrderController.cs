@@ -2,18 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using SharedModels.Basket;
 
-namespace WebApp.Controllers
+namespace ThisrtApiService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class OrderController : Controller
     {
         public OrderController(
-            IBus bus,
-            ILogger<OrderController> logger) 
+            IBus bus) 
         {
             _bus = bus;
-            _logger = logger;
         }
 
         [HttpPost("Create")]
@@ -28,6 +26,5 @@ namespace WebApp.Controllers
         }
 
         private readonly IBus _bus;
-        private readonly ILogger<OrderController> _logger;
     }
 }

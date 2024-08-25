@@ -1,11 +1,10 @@
 ﻿using Database.Repositories;
 using MassTransit;
-using Newtonsoft.Json;
 using SharedModels.TshirtManagemetService;
 
 namespace TshirtManagementService
 {
-    internal class TshirtGetAllConsumer : IConsumer<TshirtMessageGetAllRequest>
+    public class TshirtGetAllConsumer : IConsumer<TshirtMessageGetAllRequest>
     {
         public TshirtGetAllConsumer(ITshirtRepository tshirtRepository) 
         {
