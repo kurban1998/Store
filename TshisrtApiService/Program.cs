@@ -3,6 +3,7 @@ using Database.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using SharedModels;
+using TshisrtApiService;
 
 namespace ThisrtApiService
 {
@@ -30,7 +31,7 @@ namespace ThisrtApiService
             });
 
             var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
-            builder.Services.AddSingleton(new RedisService(redisConnectionString));
+            builder.Services.AddSingleton<IRedisService>(new RedisService(redisConnectionString));
             builder.Services.AddHostedService<TshirtCacheUpdaterService>();
             var app = builder.Build();
 

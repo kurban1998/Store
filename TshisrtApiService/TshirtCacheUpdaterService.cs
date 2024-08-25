@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using SharedModels.TshirtManagemetService;
 using ThisrtApiService.Models;
+using TshisrtApiService;
 
 namespace ThisrtApiService
 {
@@ -8,7 +9,7 @@ namespace ThisrtApiService
     {
         public TshirtCacheUpdaterService(
             IBus bus,
-            RedisService redisService,
+            IRedisService redisService,
             IServiceProvider serviceProvider)
         {
             _bus = bus;
@@ -54,7 +55,7 @@ namespace ThisrtApiService
         }
 
         private readonly IBus _bus;
-        private readonly RedisService _redisService;
+        private readonly IRedisService _redisService;
         private readonly IServiceProvider _serviceProvider;
         private Timer _timer;
     }
