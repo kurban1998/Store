@@ -1,9 +1,12 @@
 ﻿using ApiService.Options;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Text;
 using ThisrtApiService.Models;
 using ThisrtApiService.Models.Reviews;
@@ -17,9 +20,11 @@ namespace WebApp.Controllers
     {
         public HomeController(
             HttpClient httpClient,
+            IHttpContextAccessor httpContextAccessor,
             IOptions<ApiUrlOptions> options)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
             _options = options.Value;
         }
 
@@ -83,6 +88,7 @@ namespace WebApp.Controllers
             return View(reviews);
         }
 
+        [Authorize]
         [HttpPost("AddReview")]
         public async Task<IActionResult> AddReview(
             [Required] int tshirtId,
@@ -91,6 +97,12 @@ namespace WebApp.Controllers
             [MaxLength(MaxCommentLength, ErrorMessage = "Максимальная длина комментария не должна превышать {1} символов")] 
             [MinLength(MinCommentLength, ErrorMessage = "Максимальная длина комментария не должна превышать {1} символов")]   string? comment)
         {
+            if (!string.IsNullOrWhiteSpace(User.Identity.Name))
+            {
+                var token = JwtToken.Create(User.Identity.Name);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
             var url = _options.TshirtUrl + "/AddReview";
 
             var reviewDto = new ReviewDTO
@@ -127,6 +139,7 @@ namespace WebApp.Controllers
         }
 
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ApiUrlOptions _options;
 
         private const int MaxVoterNameLength = 20;

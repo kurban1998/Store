@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using SharedModels.Basket;
+using System.Net.Http.Headers;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -31,6 +32,12 @@ namespace WebApp.Controllers
                JsonConvert.SerializeObject(basketUser),
                Encoding.UTF8,
                Application.Json);
+
+            if (!string.IsNullOrWhiteSpace(User.Identity?.Name))
+            {
+                var token = JwtToken.Create(User.Identity.Name);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
 
             var response = await _httpClient.PostAsync(_options.OrderUrl + "/Create", content);
 

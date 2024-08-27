@@ -66,8 +66,7 @@
     <div class="row">
         <div class="col-12">
             <div class="review">
-                @if (SignInManager.IsSignedIn(User))
-                {
+                
                     <form class="" method="post" action="~/Home/AddReview">
                         <div class="review">
                             <input style="display: none" value="@Model.TshirtId" type="number" name="tshirtId" readonly />
@@ -79,7 +78,7 @@
                         </div>
                         <input type="submit" class="btn btn-success" value="добавить отзыв" />
                     </form>
-                }
+                
             </div>
             <div class="all-reviews">
                 <form class="text-center" method="post" action="~/Home/GetAllReviews">

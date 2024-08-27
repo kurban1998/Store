@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedModels.Basket;
 
@@ -9,11 +10,14 @@ namespace ThisrtApiService.Controllers
     public class OrderController : Controller
     {
         public OrderController(
+            IAuthorizationService authorizationService,
             IBus bus) 
         {
+            _authorizationService = authorizationService;
             _bus = bus;
         }
 
+        [Authorize]
         [HttpPost("Create")]
         public async Task CreateOrder(BasketUser basketUser)
         {
@@ -25,6 +29,7 @@ namespace ThisrtApiService.Controllers
             await _bus.Publish<BasketUserMessage>(message); 
         }
 
+        private readonly IAuthorizationService _authorizationService;
         private readonly IBus _bus;
     }
 }

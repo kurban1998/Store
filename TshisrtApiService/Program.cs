@@ -1,8 +1,9 @@
 using Database;
 using Database.Repositories;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using SharedModels;
+using Microsoft.IdentityModel.Tokens;
 using TshisrtApiService;
 
 namespace ThisrtApiService
@@ -33,6 +34,22 @@ namespace ThisrtApiService
             var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
             builder.Services.AddSingleton<IRedisService>(new RedisService(redisConnectionString));
             builder.Services.AddHostedService<TshirtCacheUpdaterService>();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = AuthOptions.ISSUER,
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey()
+                    };
+                });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -44,8 +61,9 @@ namespace ThisrtApiService
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

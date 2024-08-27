@@ -1,4 +1,5 @@
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedModels.TshirtManagemetService;
 using SharedModels.TshirtService;
@@ -34,6 +35,7 @@ namespace ThisrtApiService.Controllers
             return _redisService.GetTshirt(tshirtId);
         }
 
+        [Authorize]
         [HttpPost("AddReview")]
         public async Task AddReviewToTshirt(ReviewDTO reviewDTO)
         {
@@ -48,6 +50,7 @@ namespace ThisrtApiService.Controllers
             await _bus.Publish<AddReviewMessage>(review, ctx => ctx.SetRoutingKey("AddReviewMessage"));
         }
 
+        [Authorize]
         [HttpPost("DeleteTshirtById")]
         public void DeleteTshirtById(int tshirtId)
         {
@@ -60,6 +63,7 @@ namespace ThisrtApiService.Controllers
             _bus.Publish<TshirtMessageDelete>(message, ctx => ctx.SetRoutingKey("TshirtDeletedConsumer"));
         }
 
+        [Authorize]
         [HttpPost("DeleteTshirtsByIds")]
         public void DeleteTshirtsByIds(int[] tshirtIds)
         {
