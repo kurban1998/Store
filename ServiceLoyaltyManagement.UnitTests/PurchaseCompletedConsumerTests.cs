@@ -19,7 +19,7 @@ namespace ServiceLoyaltyManagement.UnitTests
         }
 
         [TestMethod]
-        public void Consume()
+        public void ConsumerIsNotNull()
         {
             // arrange
             var userName = _fixture.Create<string>();
@@ -51,7 +51,7 @@ namespace ServiceLoyaltyManagement.UnitTests
         }
 
         [TestMethod]
-        public void ConsumeIsNull()
+        public void ConsumerIsNull()
         {
             // arrange
             var userName = _fixture.Create<string>();
